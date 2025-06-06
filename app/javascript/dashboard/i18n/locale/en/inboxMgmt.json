@@ -1,10 +1,11 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "HEADER": "Omni Channels",
+    "DESCRIPTION": "A channel is how your customer communicates with you. A colleague handles interactions for a specific channel. This can include email, live chat, or social media.",
+    "LEARN_MORE": "Learn more about collegues",
+    "RECONNECTION_REQUIRED": "Your notification connection is offline. You won't receive new messages until you reconnect.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
+
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
@@ -14,12 +15,12 @@
         "BODY": "Choose the provider you want to integrate with Chatwoot."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
+        "TITLE": "Create Omni Channels",
         "BODY": "Authenticate your account and create an inbox."
       },
       "AGENT": {
         "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "BODY": "Add agents to the created colleagues."
       },
       "FINISH": {
         "TITLE": "Voilà!",
@@ -28,8 +29,8 @@
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "LABEL": "Notification Name",
+        "PLACEHOLDER": "Enter your Colleague name (eg: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
@@ -352,7 +353,7 @@
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Departments",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
@@ -495,7 +496,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Departments",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
@@ -770,7 +771,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

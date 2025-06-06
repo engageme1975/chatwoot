@@ -284,7 +284,7 @@
 
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contacts",
+      "TITLE": "Tenants",
       "SEARCH_TITLE": "Search contacts",
       "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Search...",
@@ -297,7 +297,7 @@
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
+          "ADD_CONTACT": "Add tenants",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
           "SAVE_CONTACT": "Save contact",

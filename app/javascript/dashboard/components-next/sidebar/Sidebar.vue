@@ -198,7 +198,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
+    /* {
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
@@ -219,7 +219,7 @@ const menuItems = computed(() => {
           to: accountScopedRoute('captain_responses_index'),
         },
       ],
-    },
+    }, */
     {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
@@ -333,7 +333,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
+    /* {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',
@@ -379,7 +379,7 @@ const menuItems = computed(() => {
           }),
         },
       ],
-    },
+    }, */
     {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),

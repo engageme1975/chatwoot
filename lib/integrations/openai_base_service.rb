@@ -4,7 +4,7 @@ class Integrations::OpenaiBaseService
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
+  API_URL = ENV.fetch('OPENAI_API_URL', 'https://api.openai.com/v1/chat/completions').freeze
   GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', 'gpt-4o-mini').freeze
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
@@ -81,22 +81,30 @@ class Integrations::OpenaiBaseService
     self.class::CACHEABLE_EVENTS.include?(event_name)
   end
 
-  def make_api_call(body)
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
-    }
+def make_api_call(body)
+  headers = {
+    'Content-Type' => 'application/json',
+    'Authorization' => "Bearer #{hook.settings['api_key']}"
+  }
 
-    Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(API_URL, headers: headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
+  Rails.logger.info("OpenAI API request: #{body}")
+  response = HTTParty.post(API_URL, headers: headers, body: body)
+  Rails.logger.info("OpenAI API response: #{response.body}")
 
-    return { error: response.parsed_response, error_code: response.code } unless response.success?
+  return { error: response.parsed_response, error_code: response.code } unless response.success?
 
-    choices = JSON.parse(response.body)['choices']
+  choices = JSON.parse(response.body)['choices']
+  if choices.present?
+    raw_message = choices.first['message']['content']
 
-    return { message: choices.first['message']['content'] } if choices.present?
+    # Split on '</think>' and get the second part if present
+    message_parts = raw_message.split('</think>')
+    processed_message = message_parts.length > 1 ? message_parts[1].strip : raw_message.strip
 
-    { message: nil }
+    return { message: processed_message }
   end
+
+  { message: nil }
+end
+
 end
