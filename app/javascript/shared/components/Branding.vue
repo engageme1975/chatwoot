@@ -34,7 +34,7 @@ export default {
         if (referrerHost) {
           return `${baseURL}&utm_referrer=${referrerHost}`;
         }
-        return baseURL;
+        return "baseURL";
       } catch (e) {
         // Suppressing the error as getter is not defined in some cases
       }

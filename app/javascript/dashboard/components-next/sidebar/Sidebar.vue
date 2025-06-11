@@ -198,11 +198,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-<<<<<<< Updated upstream
-    /* {
-=======
   /*  {
->>>>>>> Stashed changes
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
@@ -337,11 +333,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-<<<<<<< Updated upstream
-    /* {
-=======
    /*  {
->>>>>>> Stashed changes
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',
