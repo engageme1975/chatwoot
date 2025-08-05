@@ -198,7 +198,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-  /*  {
+    /*  {
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
@@ -321,11 +321,11 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.CAMPAIGNS'),
       icon: 'i-lucide-megaphone',
       children: [
-        {
+        /* {
           name: 'Live chat',
           label: t('SIDEBAR.LIVE_CHAT'),
           to: accountScopedRoute('campaigns_livechat_index'),
-        },
+        }, */
         {
           name: 'SMS',
           label: t('SIDEBAR.SMS'),
@@ -333,7 +333,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-   /*  {
+    /*  {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',

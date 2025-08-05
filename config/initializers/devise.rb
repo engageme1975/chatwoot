@@ -249,6 +249,15 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
+  # Configure OmniAuth providers
+  if ENV['GOOGLE_OAUTH_CLIENT_ID'].present?
+    config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH_CLIENT_ID'],
+                    ENV.fetch('GOOGLE_OAUTH_CLIENT_SECRET', nil)
+  end
+
+  # NOTE: We configure the OpenID Connect provider in the OmniAuth builder directly
+  # because Devise doesn't handle the complex configuration well
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
