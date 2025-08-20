@@ -297,17 +297,61 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
                                                           ]
                                                         end
 
+    # Check for account_id from Keycloak custom attributes
+    target_account_id = nil
+    if auth_hash['provider'] == 'keycloak'
+      # Try different locations where account_id might be stored
+      target_account_id = auth_hash['extra']['raw_info']['account_id'] ||
+                          auth_hash['extra']['raw_info']['chatwoot_account_id'] ||
+                          auth_hash['info']['account_id']
+      Rails.logger.info "Keycloak account_id found: #{target_account_id}" if target_account_id
+    end
+
+    # Use default account ID 2 if no account_id provided
+    target_account_id ||= 2
+    Rails.logger.info "Using account_id: #{target_account_id}"
+
+    # Check if target account exists
+    target_account = Account.find_by(id: target_account_id)
+    unless target_account
+      Rails.logger.error "Account with ID #{target_account_id} not found, creating new account"
+      target_account_id = nil  # This will trigger AccountBuilder to create new account
+    end
+
     # Generate a strong password for OAuth users (they won't use it directly)
     generated_password = SecureRandom.base64(16) + 'Aa1!'
 
-    @resource, @account = AccountBuilder.new(
-      account_name: extract_domain_without_tld(user_email),
-      user_full_name: user_name,
-      email: user_email,
-      locale: I18n.locale,
-      confirmed: email_verified,
-      user_password: generated_password
-    ).perform
+    if target_account_id && target_account
+      # Add user to existing account
+      @resource = User.new(
+        email: user_email,
+        name: user_name,
+        password: generated_password,
+        confirmed_at: email_verified ? Time.current : nil
+      )
+      @resource.save!
+
+      # Add user to the target account
+      AccountUser.create!(
+        account: target_account,
+        user: @resource,
+        role: :agent  # You can change this to :administrator if needed
+      )
+      @account = target_account
+      Rails.logger.info "Added user to existing account: #{target_account.name} (ID: #{target_account_id})"
+    else
+      # Create new account (fallback)
+      @resource, @account = AccountBuilder.new(
+        account_name: extract_domain_without_tld(user_email),
+        user_full_name: user_name,
+        email: user_email,
+        locale: I18n.locale,
+        confirmed: email_verified,
+        user_password: generated_password
+      ).perform
+      Rails.logger.info "Created new account: #{@account.name}"
+    end
+
     Avatar::AvatarFromUrlJob.perform_later(@resource, user_image) if user_image.present?
   end
 
@@ -318,15 +362,55 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     user_image = @mock_auth_hash['info']['image']
     email_verified = @mock_auth_hash['extra']['raw_info']['email_verified'] || false
 
+    # Check for account_id from Keycloak custom attributes
+    target_account_id = @mock_auth_hash['extra']['raw_info']['account_id'] ||
+                        @mock_auth_hash['extra']['raw_info']['chatwoot_account_id'] ||
+                        @mock_auth_hash['info']['account_id']
+
+    # Use default account ID 2 if no account_id provided
+    target_account_id ||= 2
+    Rails.logger.info "Using account_id: #{target_account_id}"
+
+    # Check if target account exists
+    target_account = Account.find_by(id: target_account_id)
+    unless target_account
+      Rails.logger.error "Account with ID #{target_account_id} not found, creating new account"
+      target_account_id = nil  # This will trigger AccountBuilder to create new account
+    end
+
     generated_password = SecureRandom.base64(16) + 'Aa1!'
-    @resource, @account = AccountBuilder.new(
-      account_name: extract_domain_without_tld(user_email),
-      user_full_name: user_name,
-      email: user_email,
-      locale: I18n.locale,
-      confirmed: email_verified,
-      user_password: generated_password
-    ).perform
+
+    if target_account_id && target_account
+      # Add user to existing account
+      @resource = User.new(
+        email: user_email,
+        name: user_name,
+        password: generated_password,
+        confirmed_at: email_verified ? Time.current : nil
+      )
+      @resource.save!
+
+      # Add user to the target account
+      AccountUser.create!(
+        account: target_account,
+        user: @resource,
+        role: :agent  # You can change this to :administrator if needed
+      )
+      @account = target_account
+      Rails.logger.info "Added user to existing account: #{target_account.name} (ID: #{target_account_id})"
+    else
+      # Create new account (fallback)
+      @resource, @account = AccountBuilder.new(
+        account_name: extract_domain_without_tld(user_email),
+        user_full_name: user_name,
+        email: user_email,
+        locale: I18n.locale,
+        confirmed: email_verified,
+        user_password: generated_password
+      ).perform
+      Rails.logger.info "Created new account: #{@account.name}"
+    end
+
     Avatar::AvatarFromUrlJob.perform_later(@resource, user_image) if user_image.present?
   end
 
