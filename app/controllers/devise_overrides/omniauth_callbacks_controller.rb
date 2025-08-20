@@ -319,7 +319,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     end
 
     # Generate a strong password for OAuth users (they won't use it directly)
-    generated_password = SecureRandom.base64(16) + 'Aa1!'
+    generated_password = "#{SecureRandom.base64(16)}Aa1!"
 
     if target_account_id && target_account
       # Add user to existing account
@@ -378,7 +378,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       target_account_id = nil  # This will trigger AccountBuilder to create new account
     end
 
-    generated_password = SecureRandom.base64(16) + 'Aa1!'
+    generated_password = "#{SecureRandom.base64(16)}Aa1!"
 
     if target_account_id && target_account
       # Add user to existing account
