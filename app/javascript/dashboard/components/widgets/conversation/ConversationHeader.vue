@@ -7,6 +7,7 @@ import BackButton from '../BackButton.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
+import JitsiCallButton from '../JitsiCallButton.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
@@ -150,6 +151,11 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         show-extended-info
         :parent-width="width"
         class="hidden md:flex"
+      />
+      <JitsiCallButton
+        v-if="currentChat.display_id"
+        :conversation-id="currentChat.display_id"
+        class="mr-2"
       />
       <MoreActions :conversation-id="currentChat.id" />
     </div>
