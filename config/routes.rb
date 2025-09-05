@@ -269,6 +269,11 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :jitsi, controller: 'jitsi', only: [] do
+              collection do
+                post :create_a_meeting
+              end
+            end
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
