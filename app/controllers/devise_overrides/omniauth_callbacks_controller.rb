@@ -351,7 +351,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       ).perform
       Rails.logger.info "Created new account: #{@account.name}"
     end
-
     Avatar::AvatarFromUrlJob.perform_later(@resource, user_image) if user_image.present?
   end
 
