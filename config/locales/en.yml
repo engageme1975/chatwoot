@@ -53,6 +53,8 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type
@@ -237,6 +239,11 @@ en:
     online:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
+    jitsi:
+      name: 'Connect AI'
+      short_description: 'Start Connect AI video/voice calls with customers from Chatwoot.'
+      description: 'Connect AI is a powerful video conferencing solution. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot using your own hosted or public Connect AI servers.'
+      meeting_name: '%{agent_name} has started a Connect AI meeting'
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Dashboard Apps'
@@ -281,6 +288,17 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  INTEGRATION_SETTINGS:
+    DYTE:
+      START_VIDEO_CALL_HELP_TEXT: 'Start a video call with the customer'
+      CLICK_HERE_TO_JOIN: 'Click here to join'
+      CREATE_ERROR: 'Failed to create meeting. Please try again.'
+    JITSI:
+      START_VIDEO_CALL_HELP_TEXT: 'Start a Connect AI video call with the customer'
+      CLICK_HERE_TO_JOIN: 'Click here to join'
+      CREATE_ERROR: 'Failed to create Connect AI meeting. Please try again.'
+      CALL_BUTTON_TEXT: 'Connect AI Call'
+      ROOM_NAME: 'Room: %{room}'
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'

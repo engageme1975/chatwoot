@@ -12,7 +12,7 @@ import {
   ALLOWED_FILE_TYPES_FOR_LINE,
   ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
 } from 'shared/constants/messages';
-import VideoCallButton from '../VideoCallButton.vue';
+import JitsiCallButton from '../JitsiCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
@@ -20,7 +20,12 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: {
+    NextButton,
+    FileUpload,
+    JitsiCallButton,
+    AIAssistanceButton,
+  },
   mixins: [inboxMixin],
   props: {
     mode: {
@@ -341,8 +346,9 @@ export default {
         sm
         @click="$emit('selectWhatsappTemplate')"
       />
-      <VideoCallButton
-        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+      <!-- Dedicated Jitsi Video Call Button -->
+      <JitsiCallButton
+        v-if="!isOnPrivateNote"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton

@@ -284,3 +284,40 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+jitsi:
+  id: jitsi
+  logo: jitsi.png
+  i18n_key: jitsi
+  action: /jitsi
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'base_url': { 'type': 'string' },
+          'meeting_domain': { 'type': 'string' },
+        },
+      'required': ['base_url'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Connect AI Base URL',
+        'type': 'text',
+        'name': 'base_url',
+        'validation': 'required|url',
+        'help': 'Enter your Connect AI server URL (e.g., https://meet.your-domain.com)',
+        'placeholder': 'https://meet.jit.si',
+      },
+      {
+        'label': 'Meeting Domain (Optional)',
+        'type': 'text',
+        'name': 'meeting_domain',
+        'help': 'Custom domain for meeting rooms (leave empty to use default)',
+        'placeholder': 'your-company',
+      },
+    ]
+  visible_properties: ['base_url', 'meeting_domain']
