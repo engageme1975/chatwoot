@@ -23,13 +23,13 @@ export default {
   computed: {
     ...mapGetters({ appIntegrations: 'integrations/getAppIntegrations' }),
     isJitsiEnabled() {
-      // Check if Jitsi integration exists with hooks (same pattern as VideoCallButton)
+      // Check if Connect AI (Jitsi) integration exists with hooks
       return this.appIntegrations.find(
         integration => integration.id === 'jitsi' && !!integration.hooks.length
       );
     },
     jitsiHelpText() {
-      return 'Start a Jitsi video call';
+      return 'Start a Connect AI video call';
     },
   },
   mounted() {
