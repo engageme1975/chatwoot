@@ -33,6 +33,7 @@ import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
+import JitsiBubble from './bubbles/Jitsi.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
@@ -290,6 +291,13 @@ const componentToRender = computed(() => {
 
   if (props.contentAttributes.type === 'dyte') {
     return DyteBubble;
+  }
+
+  if (
+    props.contentAttributes.type === 'jitsi' ||
+    props.contentAttributes.type === 'connect_ai'
+  ) {
+    return JitsiBubble;
   }
 
   if (props.contentAttributes.imageType === 'story_mention') {
