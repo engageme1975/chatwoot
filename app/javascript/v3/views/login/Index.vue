@@ -13,6 +13,7 @@ import { useBranding } from 'shared/composables/useBranding';
 // components
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import KeycloakOAuthButton from '../../components/KeycloakOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -27,6 +28,7 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
+    KeycloakOAuthButton,
     Spinner,
     NextButton,
   },
@@ -78,6 +80,9 @@ export default {
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
+    showKeycloakOAuth() {
+      return Boolean(true);
+    },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
@@ -88,6 +93,7 @@ export default {
     }
     if (this.authError) {
       const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
       useAlert(this.$t(message));
       // wait for idle state
       this.requestIdleCallbackPolyfill(() => {
@@ -196,12 +202,13 @@ export default {
     <section
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
-        'mb-8 mt-15': !showGoogleOAuth,
+        'mb-8 mt-15': !showGoogleOAuth && !showKeycloakOAuth,
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
       <div v-if="!email">
         <GoogleOAuthButton v-if="showGoogleOAuth" />
+        <KeycloakOAuthButton v-if="showKeycloakOAuth" />
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"

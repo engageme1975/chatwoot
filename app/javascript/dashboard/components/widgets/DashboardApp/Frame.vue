@@ -73,6 +73,18 @@ export default {
       // However, when ref is used together with v-for, the ref you get will be
       // an array containing the child components mirroring the data source.
       const frameElement = document.getElementById(this.getFrameId(index));
+
+      // ✅ Add permissions if it's your Jitsi iframe
+      if (
+        frameElement &&
+        frameElement.src.includes('connect-ai.engage-me.co.uk')
+      ) {
+        frameElement.setAttribute(
+          'allow',
+          'camera; microphone; fullscreen; display-capture'
+        );
+      }
+
       const eventData = { event: 'appContext', data: this.dashboardAppContext };
       frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
       this.iframeLoading = false;
