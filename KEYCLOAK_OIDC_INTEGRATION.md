@@ -1,5 +1,8 @@
 # Keycloak OIDC Integration Documentation
 
+> **📋 Note**: This document has been consolidated into the comprehensive guide.  
+> **📖 See**: [KEYCLOAK_COMPREHENSIVE_GUIDE.md](./KEYCLOAK_COMPREHENSIVE_GUIDE.md) for complete documentation.
+
 ## Overview
 This document provides a comprehensive guide to the Keycloak OpenID Connect (OIDC) integration implemented in Chatwoot. The integration enables users to authenticate using Keycloak SSO with intelligent account assignment based on user attributes.
 

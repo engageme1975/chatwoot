@@ -1,5 +1,8 @@
 # Keycloak OIDC Integration for Chatwoot
 
+> **📋 Note**: This document has been consolidated into the comprehensive guide.  
+> **📖 See**: [KEYCLOAK_COMPREHENSIVE_GUIDE.md](./KEYCLOAK_COMPREHENSIVE_GUIDE.md) for complete documentation.
+
 ## ✅ Implementation Complete
 
 Your Chatwoot instance has been **successfully configured** with Keycloak OIDC authentication and is production-ready!

@@ -1,6 +1,9 @@
 # Keycloak OIDC Integration - File Changes Summary
 
-## Files Modified/Created
+> **📋 Note**: This document has been consolidated into the comprehensive guide.  
+> **📖 See**: [KEYCLOAK_COMPREHENSIVE_GUIDE.md](./KEYCLOAK_COMPREHENSIVE_GUIDE.md) for complete documentation.
+
+## Quick Reference - Files Modified/Created
 
 ### 1. Backend Configuration Files
 
