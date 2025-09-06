@@ -22,6 +22,12 @@ The Connect AI integration follows a clean separation of concerns:
 - **Custom Base URLs**: Support for self-hosted Connect AI instances
 - **Meeting Domains**: Optional branded prefixes for room names
 
+### 📝 **Transcript Integration**
+- **Automatic Transcript Delivery**: Webhook endpoint for receiving meeting transcripts from Jigasi
+- **Private Agent Notes**: Transcripts appear as private messages visible only to agents
+- **Markdown Support**: Rich formatting for transcript content and clickable links
+- **Flexible Input**: Supports both transcript URLs and raw transcript text
+
 ### 🎨 **Professional Branding** 
 - **Connect AI Branding**: Professional naming instead of "Jitsi"
 - **Plain Text Messaging**: Clean, text-based meeting invitations without component UI
@@ -176,6 +182,91 @@ end
 ```
 
 ### 3. Backend Integration Files
+
+#### `app/controllers/api/v1/integrations/jitsi/webhooks_controller.rb`
+**Status**: ✅ Created (New Feature)
+**Purpose**: Webhook endpoint for receiving meeting transcripts from Jigasi
+**Key Features**:
+- API key authentication via `X-Jigasi-API-Key` header
+- IP whitelisting support for additional security
+- Conversation matching by room name pattern extraction
+- Integration with transcript processing service
+
+**Code Architecture**:
+```ruby
+class Api::V1::Integrations::Jitsi::WebhooksController < ApplicationController
+  before_action :verify_webhook_auth
+  
+  def transcript_webhook
+    # Find conversation by room name pattern
+    conversation = find_conversation_by_room_name(params[:room_name])
+    
+    # Process transcript with service
+    service = Integrations::Jitsi::TranscriptService.new(
+      conversation: conversation,
+      transcript_data: transcript_data
+    )
+    result = service.process_transcript
+  end
+  
+  private
+  
+  def find_conversation_by_room_name(room_name)
+    # Extract conversation ID from room name pattern
+    if room_name =~ /conv-?(\d+)/
+      conversation_id = $1
+      Conversation.find_by(display_id: conversation_id)
+    end
+  end
+end
+```
+
+#### `lib/integrations/jitsi/transcript_service.rb`
+**Status**: ✅ Created (New Feature)
+**Purpose**: Service for processing and creating transcript messages
+**Key Features**:
+- Support for both transcript URLs and raw transcript text
+- Private message creation (agent-only visibility)
+- Markdown formatting for rich content display
+- Metadata storage in content_attributes
+
+**Code Architecture**:
+```ruby
+class Integrations::Jitsi::TranscriptService
+  def process_transcript
+    create_transcript_message
+    { success: true, message: 'Transcript processed successfully' }
+  end
+  
+  private
+  
+  def create_transcript_message
+    message = conversation.messages.create!(
+      message_type: :outgoing,
+      content_type: :text,
+      content: formatted_transcript_content,
+      private: true,  # Agent-only visibility
+      content_attributes: {
+        meeting_transcript: true,
+        duration: transcript_data[:duration],
+        participants: transcript_data[:participants],
+        room_name: transcript_data[:room_name],
+        transcript_url: transcript_data[:transcript_url]
+      }
+    )
+  end
+  
+  def formatted_transcript_content
+    if transcript_data[:transcript_url].present?
+      # Simple markdown: room_name: [transcript](url)
+      "#{room_name}: [transcript](#{transcript_url})"
+    else
+      # Format raw transcript text with markdown
+      "Transcript:\n\n" + format_transcript_text(transcript_data[:transcript])
+    end
+  end
+end
+```
 
 #### `app/controllers/api/v1/accounts/integrations/jitsi_controller.rb`
 **Status**: ✅ Modified (Essential)
@@ -779,6 +870,25 @@ ConversationView
 - **Rails 7.1.5.1**: Backend framework
 - **Active Storage**: File handling (inherited from base controller)
 - **Pundit**: Authorization (authorize_request filter)
+- **CommonMarker**: Markdown processing for transcript formatting
+- **Zeitwerk**: Auto-loading for service classes
+
+## Related Documentation
+
+For detailed information about the transcript integration feature, see:
+- **[JITSI_TRANSCRIPT_INTEGRATION.md](JITSI_TRANSCRIPT_INTEGRATION.md)** - Complete guide for transcript webhook setup, API reference, and troubleshooting
+
+## Additional Features
+
+### Transcript Integration
+The Connect AI integration now includes automatic transcript delivery from Jigasi to Chatwoot conversations. Key features:
+- Webhook endpoint for receiving transcripts
+- Private agent notes for transcript content
+- Support for both transcript URLs and raw text
+- Markdown formatting for rich content display
+- Conversation matching by room name patterns
+
+See the dedicated transcript integration documentation for setup instructions and API details.
 
 ## Testing Considerations
 

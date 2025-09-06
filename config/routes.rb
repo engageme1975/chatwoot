@@ -321,6 +321,10 @@ Rails.application.routes.draw do
 
       namespace :integrations do
         resources :webhooks, only: [:create]
+
+        namespace :jitsi do
+          post 'webhooks/transcript', to: 'webhooks#transcript_webhook'
+        end
       end
 
       resource :profile, only: [:show, :update] do
