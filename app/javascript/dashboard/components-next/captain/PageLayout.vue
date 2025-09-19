@@ -62,7 +62,8 @@ const emit = defineEmits(['click', 'close', 'update:currentPage']);
 const { shouldShowPaywall } = usePolicy();
 
 const showPaywall = computed(() => {
-  return shouldShowPaywall(props.featureFlag);
+  // Always disable paywall for Captain AI
+  return false;
 });
 
 const handleButtonClick = () => {

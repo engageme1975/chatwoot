@@ -70,6 +70,10 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def default_captain_limits
     max_limits = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
+    
+    # Always return max limits to disable captain paywall
+    return max_limits
+    
     zero_limits = { documents: 0, responses: 0 }.with_indifferent_access
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
 

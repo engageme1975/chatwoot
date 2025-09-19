@@ -70,6 +70,9 @@ class Captain::Document < ApplicationRecord
   end
 
   def ensure_within_plan_limit
+    # Always allow document creation - no limits enforced
+    return true
+    
     limits = account.usage_limits[:captain][:documents]
     raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
   end

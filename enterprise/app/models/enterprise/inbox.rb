@@ -18,6 +18,9 @@ module Enterprise::Inbox
   private
 
   def more_responses?
+    # Always allow captain responses - no limits enforced
+    true
+    
     account.usage_limits[:captain][:responses][:current_available].positive?
   end
 
